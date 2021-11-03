@@ -15,6 +15,15 @@
 		8D2DE94C27313083000B9033 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D2DE94A27313083000B9033 /* LaunchScreen.storyboard */; };
 		8D2DE95B27313104000B9033 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2DE95927313104000B9033 /* DetailViewController.swift */; };
 		8D2DE95C27313104000B9033 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D2DE95A27313104000B9033 /* DetailViewController.xib */; };
+		8D2DE95E27326CB6000B9033 /* SegueDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2DE95D27326CB6000B9033 /* SegueDetailViewController.swift */; };
+		8D2DE96327326EF9000B9033 /* InstanceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2DE96127326EF9000B9033 /* InstanceDetailViewController.swift */; };
+		8D2DE96427326EF9000B9033 /* InstanceDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D2DE96227326EF9000B9033 /* InstanceDetailViewController.xib */; };
+		8D2DE96727327303000B9033 /* DelegateDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2DE96527327303000B9033 /* DelegateDetailViewController.swift */; };
+		8D2DE96827327303000B9033 /* DelegateDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D2DE96627327303000B9033 /* DelegateDetailViewController.xib */; };
+		8D2DE96B2732760A000B9033 /* ClosureDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2DE9692732760A000B9033 /* ClosureDetailViewController.swift */; };
+		8D2DE96C2732760A000B9033 /* ClosureDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D2DE96A2732760A000B9033 /* ClosureDetailViewController.xib */; };
+		8D2DE96F27327A26000B9033 /* NotiDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2DE96D27327A26000B9033 /* NotiDetailViewController.swift */; };
+		8D2DE97027327A26000B9033 /* NotiDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D2DE96E27327A26000B9033 /* NotiDetailViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +37,15 @@
 		8D2DE94D27313083000B9033 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D2DE95927313104000B9033 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		8D2DE95A27313104000B9033 /* DetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
+		8D2DE95D27326CB6000B9033 /* SegueDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegueDetailViewController.swift; sourceTree = "<group>"; };
+		8D2DE96127326EF9000B9033 /* InstanceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceDetailViewController.swift; sourceTree = "<group>"; };
+		8D2DE96227326EF9000B9033 /* InstanceDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InstanceDetailViewController.xib; sourceTree = "<group>"; };
+		8D2DE96527327303000B9033 /* DelegateDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelegateDetailViewController.swift; sourceTree = "<group>"; };
+		8D2DE96627327303000B9033 /* DelegateDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DelegateDetailViewController.xib; sourceTree = "<group>"; };
+		8D2DE9692732760A000B9033 /* ClosureDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosureDetailViewController.swift; sourceTree = "<group>"; };
+		8D2DE96A2732760A000B9033 /* ClosureDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ClosureDetailViewController.xib; sourceTree = "<group>"; };
+		8D2DE96D27327A26000B9033 /* NotiDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotiDetailViewController.swift; sourceTree = "<group>"; };
+		8D2DE96E27327A26000B9033 /* NotiDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotiDetailViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +81,16 @@
 				8D2DE93F27313081000B9033 /* AppDelegate.swift */,
 				8D2DE94127313081000B9033 /* SceneDelegate.swift */,
 				8D2DE94327313081000B9033 /* ViewController.swift */,
+				8D2DE96D27327A26000B9033 /* NotiDetailViewController.swift */,
+				8D2DE96E27327A26000B9033 /* NotiDetailViewController.xib */,
+				8D2DE95D27326CB6000B9033 /* SegueDetailViewController.swift */,
+				8D2DE96527327303000B9033 /* DelegateDetailViewController.swift */,
+				8D2DE96627327303000B9033 /* DelegateDetailViewController.xib */,
 				8D2DE94527313081000B9033 /* Main.storyboard */,
+				8D2DE9692732760A000B9033 /* ClosureDetailViewController.swift */,
+				8D2DE96A2732760A000B9033 /* ClosureDetailViewController.xib */,
+				8D2DE96127326EF9000B9033 /* InstanceDetailViewController.swift */,
+				8D2DE96227326EF9000B9033 /* InstanceDetailViewController.xib */,
 				8D2DE94827313083000B9033 /* Assets.xcassets */,
 				8D2DE94A27313083000B9033 /* LaunchScreen.storyboard */,
 				8D2DE94D27313083000B9033 /* Info.plist */,
@@ -131,9 +158,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D2DE96C2732760A000B9033 /* ClosureDetailViewController.xib in Resources */,
+				8D2DE97027327A26000B9033 /* NotiDetailViewController.xib in Resources */,
+				8D2DE96827327303000B9033 /* DelegateDetailViewController.xib in Resources */,
 				8D2DE94C27313083000B9033 /* LaunchScreen.storyboard in Resources */,
 				8D2DE94927313083000B9033 /* Assets.xcassets in Resources */,
 				8D2DE94727313081000B9033 /* Main.storyboard in Resources */,
+				8D2DE96427326EF9000B9033 /* InstanceDetailViewController.xib in Resources */,
 				8D2DE95C27313104000B9033 /* DetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,8 +177,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D2DE94427313081000B9033 /* ViewController.swift in Sources */,
+				8D2DE96B2732760A000B9033 /* ClosureDetailViewController.swift in Sources */,
+				8D2DE96727327303000B9033 /* DelegateDetailViewController.swift in Sources */,
 				8D2DE94027313081000B9033 /* AppDelegate.swift in Sources */,
+				8D2DE95E27326CB6000B9033 /* SegueDetailViewController.swift in Sources */,
+				8D2DE96F27327A26000B9033 /* NotiDetailViewController.swift in Sources */,
 				8D2DE94227313081000B9033 /* SceneDelegate.swift in Sources */,
+				8D2DE96327326EF9000B9033 /* InstanceDetailViewController.swift in Sources */,
 				8D2DE95B27313104000B9033 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
