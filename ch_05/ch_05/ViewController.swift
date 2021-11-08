@@ -20,6 +20,19 @@
 import UIKit
 
 class ViewController: UIViewController {
+    // Section의 개념을 넣어서
+    // [Section][SettingModel Array]
+    var settingModel = [[SettingModel]]()
+    
+    // Image Name 은 SF Symbols3 App 참고해서 이름을 쓴다.
+    func makeData() {
+        settingModel.append([SettingModel(leftImageName: "person.circle", menuTitle: "Sign in to your iPhone", subTitle: "Set up iCloud, the App Store, and more.", rightImageName: "chevron.right")]
+        )
+        
+        settingModel.append([SettingModel(leftImageName: "gear", menuTitle: "General", subTitle: nil, rightImageName: "chevron.right"),SettingModel(leftImageName: "figure.stand", menuTitle: "Accessibility", subTitle: nil, rightImageName: "chevron.right"),
+         SettingModel(leftImageName: "hand.raised.fill", menuTitle: "Privacy", subTitle: nil, rightImageName: "chevron.right")])
+    }
+    
     @IBOutlet weak var settingTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +44,7 @@ class ViewController: UIViewController {
         
         settingTableView.delegate = self
         settingTableView.dataSource = self
+        settingTableView.backgroundColor = UIColor(white: 244/255, alpha: 1)
         
         // NIB File 가지고 오기
         let nib = UINib(nibName: "ProfileCell", bundle: nil)
@@ -48,6 +62,14 @@ class ViewController: UIViewController {
          구현해야하는 메서드들이 생성된다.
          */
         
+        /*
+         Navigation Controller를 위한 Title 설정
+         */
+        self.title = "Settings"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.view.backgroundColor = UIColor(white: 244/255, alpha: 1)
+        
+        makeData()
     }
 }
 
@@ -55,7 +77,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // 셀이 몇 개 나타날지 정의하는 부분
         // return someData.count
-        return 5
+        // return 5
+        // secion을 참고하여 section 마다 몇개의 행이 나타나는지 정의해준다.
+        return settingModel[section].count
+    }
+    
+    // 섹션의 대한 개수 정의도 필요하다.
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return settingModel.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -67,14 +96,23 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         // for 에는 순서적인 부분
         // let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath)
         
-        if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath)
+        if indexPath.section == 0 {
+            // let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath)
+            // 강제 캐스팅 해주는 부분이 필요하다.
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
             
+            cell.topTitle.text = settingModel[indexPath.section][indexPath.row].menuTitle
+            cell.profileImageView.image = UIImage(systemName: settingModel[indexPath.section][indexPath.row].leftImageName)
+            cell.bottomDesc.text = settingModel[indexPath.section][indexPath.row].subTitle
             return cell
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath)
-                
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath) as! MenuCell
+        cell.leftImageView.image = UIImage(systemName: settingModel[indexPath.section][indexPath.row].leftImageName)
+        cell.leftImageView.tintColor = .orange
+        cell.middleTitle.text = settingModel[indexPath.section][indexPath.row].menuTitle
+        cell.rightImageView.image = UIImage(systemName: settingModel[indexPath.section][indexPath.row].rightImageName ?? "")
+        cell.rightImageView?.tintColor = .lightGray
         
         return cell
     }
@@ -102,3 +140,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     // Setting App 을 보면, 테이블 그룹이 나누어져 있는 것을 볼 수 있는데
     // 이것을 Section 이라 한다.
 }
+
+
+/*
+ Navigation Controller
+  - Controller 선택 후 -> Editor -> Embed in -> Navigation Controller
+  - Navigation 은 ViewController를 감싸고 있는 형태라고 생각하면 된다.
+  - 때문에 Navigation Controller는 무언가를 만들거나 하는 것이 아니다.
+    단지 타이틀과 뷰만 가지고 있는 형태이다.
+ */
