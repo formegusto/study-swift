@@ -34,6 +34,18 @@ class ViewController: UIViewController {
     }
     
     @IBOutlet weak var settingTableView: UITableView!
+    
+    /*
+     viewDidLoad 라는 함수는
+     해당 View가 이미 메모리에 올라가있으면 최초 딱 한번 실행하고,
+     이제 실행되지 않는다. 때문에 화면에 나타날때 이벤트를 지정하고 싶다면
+     viewDidAppear를 사용한다.
+     */
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Cell Class 로 가져오는 방법
@@ -85,6 +97,26 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     // 섹션의 대한 개수 정의도 필요하다.
     func numberOfSections(in tableView: UITableView) -> Int {
         return settingModel.count
+    }
+    
+    // 해당 테이블 셀이 눌렀을 때, 반응하도록 하는 코드
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // 누를때, 셀렉트 유지되어 있는 거 없애기
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        // 여기에 들어가는 identifier 값은
+        // 해당 ViewController의 StoryboardID 값이다.
+        // use storyboard ID 도 체크해준다.
+        if indexPath.section == 1 && indexPath.row == 0 {
+            if let generalVC = UIStoryboard(name: "GeneralViewController", bundle: nil).instantiateViewController(identifier: "GeneralViewController") as? GeneralViewController {
+                self.navigationController?.pushViewController(generalVC, animated: true)
+            }
+        } else if indexPath.section == 0 && indexPath.row == 0 {
+            let myIDVC = MyIDViewController(nibName: "MyIDViewController", bundle: nil)
+            
+            self.present(myIDVC, animated: true, completion: nil)
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -148,4 +180,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
   - Navigation 은 ViewController를 감싸고 있는 형태라고 생각하면 된다.
   - 때문에 Navigation Controller는 무언가를 만들거나 하는 것이 아니다.
     단지 타이틀과 뷰만 가지고 있는 형태이다.
+ */
+
+/*
+ LaunchScreen
+  - 가운데 정렬 후,
+    Constant : 중간으로부터 얼마나 떨어뜨릴 건지
+    Multiplier : 중간으로부터 몇 배수 떨어뜨릴 건지 (Constant 영향),
+  - LaunchScreen 에서는 어떤 코드를 연결하거나 해서
+    실행시킬 수 없다.
  */

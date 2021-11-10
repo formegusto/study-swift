@@ -21,6 +21,10 @@
 		8D6A4A6227365F0D00BB18BC /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6A4A6027365F0D00BB18BC /* MenuCell.swift */; };
 		8D6A4A6327365F0D00BB18BC /* MenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6A4A6127365F0D00BB18BC /* MenuCell.xib */; };
 		8DACBD8E27396CBF00F43D3E /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DACBD8D27396CBF00F43D3E /* SettingModel.swift */; };
+		8DB9985C273C04D100474C04 /* GeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB9985B273C04D100474C04 /* GeneralViewController.swift */; };
+		8DB9985E273C050500474C04 /* GeneralViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DB9985D273C050500474C04 /* GeneralViewController.storyboard */; };
+		8DB99861273C154200474C04 /* MyIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB9985F273C154200474C04 /* MyIDViewController.swift */; };
+		8DB99862273C154200474C04 /* MyIDViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DB99860273C154200474C04 /* MyIDViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +63,10 @@
 		8D6A4A6027365F0D00BB18BC /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		8D6A4A6127365F0D00BB18BC /* MenuCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuCell.xib; sourceTree = "<group>"; };
 		8DACBD8D27396CBF00F43D3E /* SettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
+		8DB9985B273C04D100474C04 /* GeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewController.swift; sourceTree = "<group>"; };
+		8DB9985D273C050500474C04 /* GeneralViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GeneralViewController.storyboard; sourceTree = "<group>"; };
+		8DB9985F273C154200474C04 /* MyIDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyIDViewController.swift; sourceTree = "<group>"; };
+		8DB99860273C154200474C04 /* MyIDViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyIDViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +129,10 @@
 				8D6A4A6027365F0D00BB18BC /* MenuCell.swift */,
 				8D6A4A6127365F0D00BB18BC /* MenuCell.xib */,
 				8DACBD8D27396CBF00F43D3E /* SettingModel.swift */,
+				8DB9985B273C04D100474C04 /* GeneralViewController.swift */,
+				8DB9985D273C050500474C04 /* GeneralViewController.storyboard */,
+				8DB9985F273C154200474C04 /* MyIDViewController.swift */,
+				8DB99860273C154200474C04 /* MyIDViewController.xib */,
 			);
 			path = ch_05;
 			sourceTree = "<group>";
@@ -246,9 +258,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DB9985E273C050500474C04 /* GeneralViewController.storyboard in Resources */,
 				8D6A4A3927363BE300BB18BC /* LaunchScreen.storyboard in Resources */,
 				8D6A4A5F2736525800BB18BC /* ProfileCell.xib in Resources */,
 				8D6A4A6327365F0D00BB18BC /* MenuCell.xib in Resources */,
+				8DB99862273C154200474C04 /* MyIDViewController.xib in Resources */,
 				8D6A4A3627363BE300BB18BC /* Assets.xcassets in Resources */,
 				8D6A4A3427363BE100BB18BC /* Main.storyboard in Resources */,
 			);
@@ -276,9 +290,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D6A4A3127363BE100BB18BC /* ViewController.swift in Sources */,
+				8DB9985C273C04D100474C04 /* GeneralViewController.swift in Sources */,
 				8D6A4A6227365F0D00BB18BC /* MenuCell.swift in Sources */,
 				8DACBD8E27396CBF00F43D3E /* SettingModel.swift in Sources */,
 				8D6A4A5E2736525800BB18BC /* ProfileCell.swift in Sources */,
+				8DB99861273C154200474C04 /* MyIDViewController.swift in Sources */,
 				8D6A4A2D27363BE100BB18BC /* AppDelegate.swift in Sources */,
 				8D6A4A2F27363BE100BB18BC /* SceneDelegate.swift in Sources */,
 			);
