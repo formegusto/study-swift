@@ -9,6 +9,16 @@ class OnBoardingPageViewController: UIPageViewController {
     // 1. 여러개의 페이지를 닮을 array가 필요하다.
     
     var pages = [UIViewController]()
+    var bottomButtonMargin: NSLayoutConstraint?
+    var pageControll = UIPageControl()
+    var currentIndex = 0 {
+        didSet {
+            pageControll.currentPage = currentIndex
+            buttonPresentation()
+        }
+    }
+    
+    let startIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,8 +63,76 @@ class OnBoardingPageViewController: UIPageViewController {
          */
         setViewControllers([itemVC1], direction: .forward, animated: true, completion: nil)
         self.dataSource = self
+        self.delegate = self
+        
+        self.makeBottomButton()
+        self.makePageControll()
     }
 
+    func makePageControll() {
+        self.view.addSubview(self.pageControll)
+        pageControll.translatesAutoresizingMaskIntoConstraints = false
+        
+        // 선택됐을때, 안됐을때,
+        pageControll.currentPageIndicatorTintColor = .systemBlue
+        pageControll.pageIndicatorTintColor = .lightGray
+        pageControll.numberOfPages = pages.count
+//        pageControll.currentPage = startIndex
+        self.currentIndex = startIndex
+        
+        // 눌러서 움직이는게 싫다면, 이렇게,
+//        pageControll.isUserInteractionEnabled = false
+        // 제약사항
+//        pageControll.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -80  ).isActive = true
+        pageControll.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        pageControll.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        pageControll.addTarget(self, action: #selector(pageControllTapped), for: .valueChanged)
+    }
+    
+    @objc func pageControllTapped(sender: UIPageControl) {
+        if sender.currentPage < self.currentIndex {
+            self.setViewControllers([pages[sender.currentPage]], direction: .reverse, animated: true, completion: nil)
+        }else {
+            self.setViewControllers([pages[sender.currentPage]], direction: .forward, animated: true, completion: nil)
+        }
+        
+        self.currentIndex = sender.currentPage
+    }
+    
+    func makeBottomButton() {
+        let button = UIButton()
+        
+        button.setTitle("확인", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .systemBlue
+        // 눌렀다가 올라올때, 이벤트 설정
+        button.addTarget(self, action: #selector(dismissPageVC), for: .touchUpInside)
+        
+        
+        self.view.addSubview(button)
+        // constraint 설정을 해주기 위해서는 이것을 꺼줘야함.
+        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        // 그 버튼이 없는 아이폰은 밑에 취소 그 바가 있어서
+        // 이거를 제외하고 올려줘야함. 알지? 이상하다고 생각했었음
+//        button.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        // 0이면 constant 옵션 생략가능하다.
+        button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        button.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        button.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        bottomButtonMargin = button.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+        bottomButtonMargin?.isActive = true
+        
+        hideButton()
+    }
+    
+    @objc func dismissPageVC() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
 }
 
 extension OnBoardingPageViewController: UIPageViewControllerDataSource {
@@ -67,6 +145,9 @@ extension OnBoardingPageViewController: UIPageViewControllerDataSource {
         guard let currentIndex = pages.firstIndex(of: viewController) else {
             return nil
         }
+        
+        self.currentIndex = currentIndex
+        
         // 0 인덱스에 대한 에러처리
         // 그대로 나두어도 되지만, 마지막 페이지로 가고싶으면 아래와 같이,
         if currentIndex == 0 {
@@ -80,6 +161,9 @@ extension OnBoardingPageViewController: UIPageViewControllerDataSource {
         guard let currentIndex = pages.firstIndex(of: viewController) else {
             return nil
         }
+        
+        self.currentIndex = currentIndex
+        
         // 마지막 인덱스에 대한 에러처리
         // 그대로 나두어도 되지만, 마지막 페이지로 가고싶으면 아래와 같이,
         if currentIndex == (pages.count - 1) {
@@ -89,4 +173,63 @@ extension OnBoardingPageViewController: UIPageViewControllerDataSource {
     }
     
     
+}
+
+extension OnBoardingPageViewController: UIPageViewControllerDelegate {
+    // 페이지 이동이 끝났을 때 실행되는 이벤트
+    // 아래에 Debug View Hierarchy 로 미리 보기 화면 확인 가능
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        // 이 친구는 dataSource처럼 가지고 있지 않다. page를
+        // 때문에 pageViewController에 첫번째에 담겨져 있는데
+        // 이를 이용한다. Carousel 돌릴 때 느낌
+        guard let currentVC = pageViewController.viewControllers?.first else {
+            return
+        }
+        
+        guard let currentIdx = pages.firstIndex(of: currentVC) else {
+            return
+        }
+        
+        self.currentIndex = currentIdx
+//        if currentIdx == pages.count - 1 {
+//            // show button
+//            showButton()
+//        } else {
+//            // hide button
+//            hideButton()
+//        }
+//
+//        // animation
+////        UIView.animate(withDuration: 0.5) {
+////            self.view.layoutIfNeeded()
+////        }
+//
+//        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.5, delay: 0, options: [.curveEaseInOut], animations: {
+//            self.view.layoutIfNeeded()
+//        }, completion: { UIViewAnimatingPosition in
+//            // 포지션이라는 개념이 있어서 좋다.
+//            // 하지만 일단 nil ㅋ
+//        })
+    }
+    
+    func buttonPresentation() {
+        if currentIndex == pages.count - 1 {
+            // show button
+            showButton()
+        } else {
+            // hide button
+            hideButton()
+        }
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.5, delay: 0, options: [.curveEaseInOut], animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    func showButton() {
+        bottomButtonMargin?.constant = 0
+    }
+    
+    func hideButton() {
+        bottomButtonMargin?.constant = 100
+    }
 }

@@ -15,6 +15,7 @@ class OnBoardingItemViewController: UIViewController {
 
     // 어짜피 외부에서 값 변경할 일이 없기 때문에
     // private 설정
+    @IBOutlet weak var itemScrollView: UIScrollView!
     @IBOutlet weak var itemView: UIView!
     @IBOutlet private weak var topImageView: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel! {
