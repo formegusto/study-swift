@@ -3,6 +3,8 @@ import PhotosUI
 
 class ViewController: UIViewController {
 
+//    var images = [UIImage?]()
+    var fetchResults: PHFetchResult<PHAsset>?
     @IBOutlet weak var photoCollectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +64,7 @@ class ViewController: UIViewController {
     }
     
     @objc func refreshImage() {
-        
+        self.photoCollectionView.reloadData()
     }
 
     @objc func checkPermission() {
@@ -121,11 +123,15 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return self.fetchResults?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
+//        cell.photoImageView.image = xxxxx
+        if let asset = self.fetchResults?[indexPath.row] {
+            cell.loadCell(asset: asset)
+        }
         
         return cell
     }
@@ -135,6 +141,39 @@ extension ViewController: PHPickerViewControllerDelegate {
     // 사용자가 Cancel 이든, Add 든, 어떤 버튼을 눌렀을 때, 반응
     // Cancel을 누르면 results 에는 아무것도 들어오지 않는다.
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        // PHPickerResult Structure
+        /*
+         ▿ 1 element
+           ▿ 0 : PHPickerResult
+             - itemProvider : <PUPhotosFileProviderItemProvider: 0x6000009f0600> {types = (
+             "public.jpeg"
+         )}
+             ▿ assetIdentifier : Optional<String>
+               - some : "사진의 고유 키 값"
+         */
+        let identifiers = results.map{ $0.assetIdentifier ?? "" }
+        // Assets 형태로 가지고 올 수 있다.
+        self.fetchResults = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options:nil)
+        self.photoCollectionView.reloadData()
+//        let fetchAssets = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options:nil)
+//        fetchAssets.enumerateObjects { asset, index, stop in
+//            // 특정 인덱스 구간에서 멈추고 싶은 경우,
+//            if index == 2 {
+//                stop.pointee = true
+//            }
+//            let imageManager = PHImageManager()
+//
+//            // 아이폰은 해상도 별로 표시할 수 있는 픽셀수가 다르기 때문에
+//            // 이를 가지고 와서 곱해줘야 한다.
+//            let scale = UIScreen.main.scale
+//            let imageSize = CGSize(width: 300 * scale, height: 300 * scale)
+//            imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: .aspectFill, options: nil) { image, info in
+//                // 이제 이미지로 변환된 것이 여기에 담김.
+//                // 하나의 사진을 가지고 오면, 저화질 고화질 한번씩 해서 총 2번 가지고오게 됨.
+////                self.images.append(image)
+//            }
+//        }
+        
         self.dismiss(animated: true, completion: nil)
     }
 }
