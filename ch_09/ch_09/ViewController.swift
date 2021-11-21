@@ -114,6 +114,19 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // 처음 init은 파일명
+        // withIdentifier 에는 StoryboardID
+        let detailVC = UIStoryboard.init(name: "DetailViewController", bundle: nil).instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        
+        // 하지만 화면에 다 그려지고 나오기 때문에,
+        // 처음에 예시값으로 입력해놨던게 나올 수 도 있다.
+        // 그래서 쓰는게, DetailViewController에 viewDidLoad
+        detailVC.movieResult = self.movieModel?.results[indexPath.row]
+        self.present(detailVC, animated: true) {
+//            detailVC.movieResult = self.movieModel?.results[indexPath.row]
+        }
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.movieModel?.resultCount ?? 0
     }
