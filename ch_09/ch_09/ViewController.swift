@@ -13,6 +13,13 @@ class ViewController: UIViewController {
     var movieModel: MovieModel?
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var movieTableView: UITableView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView! {
+        didSet {
+            spinner.layer.zPosition = 1
+            spinner.hidesWhenStopped = true
+            spinner.stopAnimating()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +29,6 @@ class ViewController: UIViewController {
         
         // 이벤트용으로 쓸거기 때문에!
         searchBar.delegate = self
-        
-        requestMovieAPI()
     }
 
     func loadImage(urlString: String, completion: @escaping (UIImage?) -> Void){
@@ -66,13 +71,14 @@ class ViewController: UIViewController {
     }
     
     // network 호출
-    func requestMovieAPI() {
+    func requestMovieAPI(_ termValue: String) {
+        self.spinner.startAnimating()
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
         
         var components = URLComponents(string: "https://itunes.apple.com/search")
         
-        let term = URLQueryItem(name: "term", value: "marvel")
+        let term = URLQueryItem(name: "term", value: termValue)
         let media = URLQueryItem(name: "media", value: "movie")
         
         components?.queryItems = [term, media]
@@ -110,6 +116,7 @@ class ViewController: UIViewController {
         // 이거는 관례다. 해줘야함
         task.resume()
         session.finishTasksAndInvalidate()
+        self.spinner.stopAnimating()
     }
 }
 
@@ -123,6 +130,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         // 처음에 예시값으로 입력해놨던게 나올 수 도 있다.
         // 그래서 쓰는게, DetailViewController에 viewDidLoad
         detailVC.movieResult = self.movieModel?.results[indexPath.row]
+        tableView.deselectRow(at: indexPath, animated: true)
         self.present(detailVC, animated: true) {
 //            detailVC.movieResult = self.movieModel?.results[indexPath.row]
         }
@@ -165,7 +173,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
+        if let hasTermQuery = searchBar.text {
+            requestMovieAPI(hasTermQuery)
+        }
     }
 }
 
