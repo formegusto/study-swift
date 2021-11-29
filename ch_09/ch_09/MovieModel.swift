@@ -7,15 +7,17 @@ struct MovieModel: Codable{
     let results: [Result]
 }
 
+// 데이터가 없는 경우를 고려해서,
+// 전부 다 옵셔널로 설정해준다. (실제 그런 상황이 많다고 하시네요!)
 struct Result: Codable {
-    let trackName: String
-    let previewUrl: String
-    let image: String
+    let trackName: String?
+    let previewUrl: String?
+    let image: String?
     let shortDescription: String?
-    let longDescription: String
-    let currency: String
-    let trackPrice: Double
-    let releaseDate: String
+    let longDescription: String?
+    let currency: String?
+    let trackPrice: Double?
+    let releaseDate: String?
     let priviewUrl: String?
     
     enum CodingKeys: String, CodingKey {

@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     var movieModel: MovieModel?
+    var networkLayer: NetworkLayer = NetworkLayer();
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var movieTableView: UITableView!
     @IBOutlet weak var spinner: UIActivityIndicatorView! {
@@ -29,6 +30,16 @@ class ViewController: UIViewController {
         
         // 이벤트용으로 쓸거기 때문에!
         searchBar.delegate = self
+    }
+    
+    func loadImage_2(urlString: String, completion: @escaping (UIImage?) -> Void){
+        networkLayer.request(type: .justURL(urlString: urlString)) { data, response, error in
+            if let hasData = data {
+                completion(UIImage(data: hasData))
+                return
+            }
+            completion(nil)
+        }
     }
 
     func loadImage(urlString: String, completion: @escaping (UIImage?) -> Void){
@@ -70,6 +81,32 @@ class ViewController: UIViewController {
         completion(nil)
     }
     
+    func requestMovieAPI_2(_ termValue: String) {
+        self.spinner.startAnimating()
+        
+        let term = URLQueryItem(name: "term", value: termValue)
+        let media = URLQueryItem(name: "media", value: "movie")
+        
+        networkLayer.request(type: .searchMovie(queries: [term, media])) { data, response, error in
+            if let hasData = data {
+                do {
+                    self.movieModel = try JSONDecoder().decode(MovieModel.self, from: hasData)
+                    
+                    print(self.movieModel ?? "no data")
+                    
+                    // 클로저이기 때문에,,
+                    DispatchQueue.main.async {
+                        self.movieTableView.reloadData()
+                    }
+                    
+                } catch {
+                    print(error)
+                }
+            }
+            
+        }
+        self.spinner.stopAnimating()
+    }
     // network 호출
     func requestMovieAPI(_ termValue: String) {
         self.spinner.startAnimating()
@@ -151,19 +188,26 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.titleLabel.text = nowModel.trackName
             cell.descLabel.text = nowModel.shortDescription ?? nowModel.longDescription
 //            cell.dateLabel.text = nowModel.releaseDate.
-            cell.priceLabel.text = nowModel.currency + " " + nowModel.trackPrice.description
-            self.loadImage(urlString: nowModel.image) { image in
-                DispatchQueue.main.async {
-                    cell.movieImageView.image = image
+            
+            // 옵셔널 처리부
+            let currency = nowModel.currency ?? ""
+            let trackPrice = nowModel.trackPrice?.description ?? ""
+            cell.priceLabel.text = currency + " " + trackPrice
+            if let hasUrl = nowModel.image {
+                self.loadImage_2(urlString: hasUrl) { image in
+                    DispatchQueue.main.async {
+                        cell.movieImageView.image = image
+                    }
                 }
             }
             
-            let dateString = nowModel.releaseDate
-            let formatter = ISO8601DateFormatter()
-            if let isoDate = formatter.date(from: dateString) {
-                let myFormatter = DateFormatter()
-                myFormatter.dateFormat = "yyyy년 MM월 dd일"
-                cell.dateLabel.text = myFormatter.string(from: isoDate)
+            if let dateString = nowModel.releaseDate {
+                let formatter = ISO8601DateFormatter()
+                if let isoDate = formatter.date(from: dateString) {
+                    let myFormatter = DateFormatter()
+                    myFormatter.dateFormat = "yyyy년 MM월 dd일"
+                    cell.dateLabel.text = myFormatter.string(from: isoDate)
+                }
             }
         }
         
@@ -173,8 +217,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // Raect state 처럼 해당 ViewControll에 변수로 선언해놓고
+        // 수정해서 쓰기도 한다.
         if let hasTermQuery = searchBar.text {
-            requestMovieAPI(hasTermQuery)
+            requestMovieAPI_2(hasTermQuery)
+            self.view.endEditing(true)
         }
     }
 }
