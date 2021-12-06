@@ -8,6 +8,25 @@
 import UIKit
 import CoreData
 
+enum PriorityLevel: Int64 {
+    case level1
+    case level2
+    case level3
+}
+
+extension PriorityLevel {
+    var color: UIColor {
+        switch self {
+        case .level1:
+            return .systemBlue.withAlphaComponent(0.3)
+        case .level2:
+            return .systemBlue.withAlphaComponent(0.5)
+        case .level3:
+            return .systemBlue.withAlphaComponent(0.7)
+        }
+    }
+}
+
 class ViewController: UIViewController  {
 
     @IBOutlet weak var todoTableView: UITableView!
@@ -61,7 +80,9 @@ class ViewController: UIViewController  {
     }
 
     @objc func addNewTodo() {
-        
+        let todoDetailVC = TodoDetailViewController(nibName: "TodoDetailViewController", bundle: nil)
+        todoDetailVC.delegate = self
+        self.present(todoDetailVC, animated: true)
     }
 }
 
@@ -83,9 +104,28 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.bottomDateLabel.text = ""
         }
         
+        let priority = todoList[indexPath.row].priorityLevel
+        cell.priorityBox.backgroundColor = PriorityLevel(rawValue: priority)?.color
+        cell.priorityBox.layer.cornerRadius = cell.priorityBox.bounds.height / 2
+        
         return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let todoDetailVC = TodoDetailViewController(nibName: "TodoDetailViewController", bundle: nil)
+        todoDetailVC.delegate = self
+        /* ****** */
+        todoDetailVC.selectedTodoList = todoList[indexPath.row]
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        self.present(todoDetailVC, animated: true)
+    }
 }
 
+extension ViewController: TodoDetailViewControllerDelegate {
+    func didFinishSaveData() {
+        self.fetchData()
+        self.todoTableView.reloadData()
+    }
+}
