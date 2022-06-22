@@ -13,11 +13,9 @@ struct ImageType {
 
 var imageType1 = ImageType()
 var imageType2 = imageType1 // 고대로 복사된다. 참조의 개념이 아님
-var imageType3 = imageType2
-
 
 imageType1.type = "jpg"
 imageType2.type = "png"
 
-imageType1.type
-imageType2.type
+print(imageType1.type) // jpg
+print(imageType2.type) // png
