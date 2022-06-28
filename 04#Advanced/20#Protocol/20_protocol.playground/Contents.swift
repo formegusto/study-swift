@@ -94,3 +94,52 @@ class SomeSubClass: SomeSuperClass, SomeProtocol {
         super.init(someParameter1, someParameter2)
     }
 }
+
+
+protocol Movable {
+    func go(to destination: String)
+}
+
+protocol OnBoardable {
+    var numberOfPassangers: Int { get }
+}
+
+protocol Vehicle: Movable, OnBoardable {}
+
+struct Car: Vehicle {
+    func go(to destination: String) {
+        print("\(destination)(으)로 갑니다.")
+    }
+    var numberOfPassangers: Int = 4
+}
+var car = Car(numberOfPassangers: 9)
+car.go(to: "집")
+
+protocol Named {
+    var name: String { get }
+}
+protocol Aged {
+    var age: Int { get }
+}
+//struct Person: Named, Aged {
+//    var name: String = "Aiden"
+//    var age: Int = 27
+//}
+
+//struct CustomType {
+//    var property: String = "특수타입"
+//}
+// note: Swift structs cannot be represented in Objective-C
+class CustomType:NSObject {
+    var property: String = "특수타입"
+}
+@objc protocol Person {
+    @objc optional var name: CustomType { get }
+    @objc optional func speak()
+}
+class Forme: Person {
+    func notChoice() {
+        print("non-name, non-speak")
+    }
+}
+
